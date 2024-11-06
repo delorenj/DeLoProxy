@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - ./config:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./lego:/lego
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbyDefault=false"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.legoResolver.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.legoResolver.acme.storage=/lego/acme.json"
+      - "--certificatesresolvers.legoResolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.legoResolver.acme.httpchallenge.entrypoint=web"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`delorenzo.family`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls.certresolver=legoResolver"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$xyz123"  # Replace with actual hash
+
+networks:
+  proxy:
+    external: true
