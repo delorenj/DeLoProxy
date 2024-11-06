@@ -21,11 +21,9 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
-      - "--providers.file.directory=/etc/traefik/machines"  # Add this line
-      - "--certificatesresolvers.letsencrypt.acme.email=jaradd@gmail.com"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/lego/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--providers.file.directory=/etc/traefik/machines"
+      - "--providers.file.directory=/etc/traefik/config"
+      - "--providers.file.watch=true"  
       - "--entrypoints.websecure.http.tls.options=default"
     labels:
       - "traefik.enable=true"
