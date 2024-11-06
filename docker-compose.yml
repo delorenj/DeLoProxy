@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   traefik:
     image: traefik:v2.10
@@ -15,25 +13,25 @@ services:
       - "8080:8080"
     volumes:
       - ./config:/etc/traefik
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - \\.\pipe\docker_engine:\\.\pipe\docker_engine
       - ./lego:/lego
     command:
       - "--api.dashboard=true"
       - "--providers.docker=true"
-      - "--providers.docker.exposedbyDefault=false"
-      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/etc/traefik"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.legoResolver.acme.email=jaradd@gmail.com"
-      - "--certificatesresolvers.legoResolver.acme.storage=/lego/acme.json"
-      - "--certificatesresolvers.legoResolver.acme.httpchallenge=true"
-      - "--certificatesresolvers.legoResolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/lego/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`delorenzo.family`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls.certresolver=legoResolver"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.auth.basicauth.users=delorenj:$2y$05$yZiphbEZ7SX710KTHoR8YezdgWKcCFpCJnlhtQvQOnywqRfKvhSm6"  # Replace with actual hash
 
 networks:
