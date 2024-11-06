@@ -6,19 +6,7 @@ http:
         - "websecure"
       rule: "Host(`delorenzo.family`) || Host(`emma.delorenzo.family`)"
       service: emma-dsm
-      tls:
-        certResolver: letsencrypt
-      middlewares:
-        - secure-headers
-
-    # Jellyfin Router
-    emma-jellyfin:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`jellyfin.delorenzo.family`)"
-      service: emma-jellyfin
-      tls:
-        certResolver: letsencrypt
+      tls: {}
       middlewares:
         - secure-headers
 
@@ -28,19 +16,7 @@ http:
         - "websecure"
       rule: "Host(`drive.delorenzo.family`)"
       service: emma-drive
-      tls:
-        certResolver: letsencrypt
-      middlewares:
-        - secure-headers
-
-    # Photos Router
-    emma-photos:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`photos.delorenzo.family`)"
-      service: emma-photos
-      tls:
-        certResolver: letsencrypt
+      tls: {}
       middlewares:
         - secure-headers
 
@@ -51,20 +27,8 @@ http:
           - url: "http://192.168.1.50:5000"
         passHostHeader: true
 
-    emma-jellyfin:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.1.50:8096"
-        passHostHeader: true
-
     emma-drive:
       loadBalancer:
         servers:
           - url: "http://192.168.1.50:6690"
-        passHostHeader: true
-
-    emma-photos:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.1.50:5005"
         passHostHeader: true
