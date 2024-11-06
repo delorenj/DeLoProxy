@@ -15,6 +15,17 @@ services:
       - ./config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock
       - ./lego:/lego
+    command:
+      - "--api.dashboard=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/etc/traefik"
+      - "--certificatesresolvers.letsencrypt.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/lego/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`delorenzo.family`)"
