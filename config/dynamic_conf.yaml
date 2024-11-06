@@ -17,3 +17,4 @@ middlewares:
       stsIncludeSubdomains: true
       stsPreload: true
       stsSeconds: 31536000
+
