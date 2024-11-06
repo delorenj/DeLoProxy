@@ -21,12 +21,11 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
-      - "--providers.file.directory=/etc/traefik"
-      - "--providers.file.filename=dynamic_conf.yaml"
       - "--certificatesresolvers.letsencrypt.acme.email=jaradd@gmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/lego/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--entrypoints.websecure.http.tls.options=default"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`delorenzo.family`)"
@@ -34,6 +33,12 @@ services:
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
+      - "traefik.http.middlewares.secure-headers.headers.sslRedirect=true"
+      - "traefik.http.middlewares.secure-headers.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.secure-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.secure-headers.headers.stsPreload=true"
+      - "traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000"
+      - "traefik.http.routers.dashboard.middlewares=secure-headers@docker"
 
 networks:
   proxy:
