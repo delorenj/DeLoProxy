@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls.certresolver=legoResolver"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$xyz123"  # Replace with actual hash
+      - "traefik.http.middlewares.auth.basicauth.users=delorenj:$2y$05$yZiphbEZ7SX710KTHoR8YezdgWKcCFpCJnlhtQvQOnywqRfKvhSm6"  # Replace with actual hash
 
 networks:
   proxy:
