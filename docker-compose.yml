@@ -22,6 +22,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.directory=/etc/traefik"
+      - "--providers.file.filename=dynamic.yml"
       - "--certificatesresolvers.letsencrypt.acme.email=jaradd@gmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/lego/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
