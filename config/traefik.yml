@@ -1,23 +1,10 @@
 # config/traefik.yml
-api:
-  dashboard: true
-
-entryPoints:
-  web:
-    address: ":80"
-  websecure:
-    address: ":443"
-
-providers:
-  docker:
-    exposedByDefault: false
-  file:
-    directory: "/etc/traefik"
-
-certificatesResolvers:
-  letsencrypt:
-    acme:
-      email: "jaradd@gmail.com"
-      storage: "/lego/acme.json"
-      httpChallenge:
-        entryPoint: web
+http:
+  middlewares:
+    secure-headers:
+      headers:
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
