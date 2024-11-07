@@ -14,14 +14,13 @@ services:
     volumes:
       - ./config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./lego:/lego
+      - ./config/lego:/lego
     command:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
-      - "--providers.file.directory=/etc/traefik/machines"
       - "--providers.file.directory=/etc/traefik/config"
       - "--providers.file.watch=true"  
       - "--entrypoints.websecure.http.tls.options=default"
@@ -30,7 +29,6 @@ services:
       - "traefik.http.routers.dashboard.rule=Host(`traefik.delorenzo.family`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
       - "traefik.http.middlewares.secure-headers.headers.sslRedirect=true"
       - "traefik.http.middlewares.secure-headers.headers.forceSTSHeader=true"
