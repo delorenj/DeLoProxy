@@ -14,7 +14,8 @@ services:
     volumes:
       - ./config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/lego:/lego
+      - ./config/DeLoCerts:/lego
+      - ./config/dynamic:/etc/traefik/config
     command:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
