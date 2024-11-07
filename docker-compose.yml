@@ -24,6 +24,16 @@ services:
       - "--providers.file.directory=/etc/traefik/config"
       - "--providers.file.watch=true"  
       - "--entrypoints.websecure.http.tls.options=default"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge=true"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge.provider=namecheap"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge.resolvers=1.1.1.1"
+      - "--certificatesresolvers.delorenzo.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.delorenzo.acme.storage=/acme/acme-delorenzo.json"
+      - "--certificatesresolvers.delo.acme.dnschallenge=true"
+      - "--certificatesresolvers.delo.acme.dnschallenge.provider=namecheap"
+      - "--certificatesresolvers.delo.acme.dnschallenge.resolvers=1.1.1.1"
+      - "--certificatesresolvers.delo.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.delo.acme.storage=/acme/acme-delo.json"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.delorenzo.family`)"
@@ -37,16 +47,6 @@ services:
       - "traefik.http.middlewares.secure-headers.headers.stsPreload=true"
       - "traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000"
       - "traefik.http.routers.dashboard.middlewares=secure-headers@docker"
-      - "--certificatesresolvers.delorenzo.acme.dnschallenge=true"
-      - "--certificatesresolvers.delorenzo.acme.dnschallenge.provider=namecheap"
-      - "--certificatesresolvers.delorenzo.acme.dnschallenge.resolvers=1.1.1.1"
-      - "--certificatesresolvers.delorenzo.acme.email=jaradd@gmail.com"
-      - "--certificatesresolvers.delorenzo.acme.storage=/acme/acme-delorenzo.json"
-      - "--certificatesresolvers.delo.acme.dnschallenge=true"
-      - "--certificatesresolvers.delo.acme.dnschallenge.provider=namecheap"
-      - "--certificatesresolvers.delo.acme.dnschallenge.resolvers=1.1.1.1"
-      - "--certificatesresolvers.delo.acme.email=jaradd@gmail.com"
-      - "--certificatesresolvers.delo.acme.storage=/acme/acme-delo.json"
 
 networks:
   proxy:
