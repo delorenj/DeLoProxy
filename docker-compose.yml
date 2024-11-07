@@ -14,7 +14,8 @@ services:
     volumes:
       - ./config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/DeLoCerts:/lego
+      - ./config/DeLoCerts/lego/delorenzo:/lego/delorenzo
+      - ./config/DeLoCerts/lego/delo:/lego/delo
       - ./config/dynamic:/etc/traefik/config
     command:
       - "--api.dashboard=true"
