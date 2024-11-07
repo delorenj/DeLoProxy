@@ -14,9 +14,7 @@ services:
     volumes:
       - ./config:/etc/traefik
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/DeLoCerts/lego/delorenzo:/lego/delorenzo
-      - ./config/DeLoCerts/lego/delo:/lego/delo
-      - ./config/dynamic:/etc/traefik/config
+      - ./acme:/acme
     command:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
@@ -38,6 +36,16 @@ services:
       - "traefik.http.middlewares.secure-headers.headers.stsPreload=true"
       - "traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000"
       - "traefik.http.routers.dashboard.middlewares=secure-headers@docker"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge=true"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge.provider=namecheap"
+      - "--certificatesresolvers.delorenzo.acme.dnschallenge.resolvers=1.1.1.1"
+      - "--certificatesresolvers.delorenzo.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.delorenzo.acme.storage=/acme/acme-delorenzo.json"
+      - "--certificatesresolvers.delo.acme.dnschallenge=true"
+      - "--certificatesresolvers.delo.acme.dnschallenge.provider=namecheap"
+      - "--certificatesresolvers.delo.acme.dnschallenge.resolvers=1.1.1.1"
+      - "--certificatesresolvers.delo.acme.email=jaradd@gmail.com"
+      - "--certificatesresolvers.delo.acme.storage=/acme/acme-delo.json"
 
 networks:
   proxy:

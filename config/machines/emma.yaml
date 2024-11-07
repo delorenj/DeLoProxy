@@ -6,7 +6,8 @@ http:
         - "websecure"
       rule: "Host(`delorenzo.family`) || Host(`emma.delorenzo.family`)"
       service: emma-dsm
-      tls: {}
+      tls:
+        certResolver: default
       middlewares:
         - secure-headers
 
@@ -16,7 +17,8 @@ http:
         - "websecure"
       rule: "Host(`drive.delorenzo.family`)"
       service: emma-drive
-      tls: {}
+      tls:
+        certResolver: default
       middlewares:
         - secure-headers
 
