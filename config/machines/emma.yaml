@@ -7,7 +7,7 @@ http:
       rule: "Host(`delorenzo.family`) || Host(`emma.delorenzo.family`)"
       service: emma-dsm
       tls:
-        certResolver: default
+        certResolver: delorenzo
       middlewares:
         - secure-headers
 
@@ -18,7 +18,7 @@ http:
       rule: "Host(`drive.delorenzo.family`)"
       service: emma-drive
       tls:
-        certResolver: default
+        certResolver: delorenzo
       middlewares:
         - secure-headers
 

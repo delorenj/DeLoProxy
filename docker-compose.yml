@@ -27,6 +27,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.delorenzo.family`)"
+      - "traefik.http.routers.dashboard.tls.certresolver=delorenzo"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_AUTH}"
