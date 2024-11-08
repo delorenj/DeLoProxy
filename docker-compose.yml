@@ -1,26 +1,25 @@
 services:
   traefik:
-    image: traefik:v2.10
+    image: docker.io/library/traefik:v2.10
     container_name: traefik
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    networks:
-      - proxy
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+    network_mode: "host"  # Changed from networks for Podman compatibility
     volumes:
-      - ./config:/etc/traefik
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./acme:/acme
+      - ./config:/etc/traefik:Z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      - ./acme:/acme:Z
+    environment:
+      - NAMECHEAP_API_USER=${NAMECHEAP_API_USER}
+      - NAMECHEAP_API_KEY=${NAMECHEAP_API_KEY}
     command:
       - "--api.dashboard=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.file.directory=/etc/traefik/config"
       - "--providers.file.watch=true"  
       - "--entrypoints.websecure.http.tls.options=default"
@@ -47,7 +46,3 @@ services:
       - "traefik.http.middlewares.secure-headers.headers.stsPreload=true"
       - "traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000"
       - "traefik.http.routers.dashboard.middlewares=secure-headers@docker"
-
-networks:
-  proxy:
-    external: true
