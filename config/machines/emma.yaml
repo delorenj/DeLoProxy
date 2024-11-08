@@ -9,7 +9,7 @@ http:
       tls:
         certResolver: delorenzo
       middlewares:
-        - secure-headers@docker  # Changed from secure-headers to secure-headers@docker
+        - secure-headers@file
 
     # Drive Router
     emma-drive:
@@ -20,7 +20,7 @@ http:
       tls:
         certResolver: delorenzo
       middlewares:
-        - secure-headers@docker  # Changed from secure-headers to secure-headers@docker
+        - secure-headers@file
 
   services:
     emma-dsm:

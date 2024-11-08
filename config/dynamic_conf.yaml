@@ -1,8 +1,3 @@
-tls:
-  options:
-    default:
-      minVersion: VersionTLS12
-
 http:
   middlewares:
     secure-headers:
@@ -12,3 +7,12 @@ http:
         stsIncludeSubdomains: true
         stsPreload: true
         stsSeconds: 31536000
+    auth:
+      basicauth:
+        users:
+          - "${TRAEFIK_AUTH}"
+
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
