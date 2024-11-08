@@ -49,6 +49,7 @@ services:
       - "--certificatesresolvers.delo.acme.storage=/acme/acme-delo.json"
       # Log configuration
       - "--log.level=INFO"
+      - "--accesslog=true"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.delorenzo.family`)"
