@@ -1,8 +1,6 @@
 # Task
 
-Guide me through my migration of Docker to Podman.
-
-Its current state is a result of my attempts to get Traefik running on the WSL2 Ubuntu machine on Wet-Ham. After much frustration, I decided it might be easier to just run the stack on the Windows machine (because of the privileged ports it needs) and let the reverse proxy point to all the services running on the WSL2 machine. 
+Guide me through the setup and configuration of the DeLoProxy stack on my network.
 
 ## Device Inventory
 
