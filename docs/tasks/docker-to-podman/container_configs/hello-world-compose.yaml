@@ -1,0 +1,16 @@
+# Podman Compose configuration for Hello World service
+# To be deployed on Tonnys-Butt
+
+services:
+  hello-world:
+    image: docker.io/nginx:alpine
+    container_name: hello-world
+    restart: unless-stopped
+    volumes:
+      - ./hello-world/html:/usr/share/nginx/html:Z
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hello.rule=Host(`hai.delo.sh`)"
+      - "traefik.http.routers.hello.tls.certresolver=delo"
+      - "traefik.http.routers.hello.entrypoints=websecure"
+      - "traefik.http.services.hello.loadbalancer.server.port=80"
