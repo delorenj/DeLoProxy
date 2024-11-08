@@ -1,20 +1,14 @@
-# Dynamic configuration
 tls:
   options:
     default:
       minVersion: VersionTLS12
 
-routers:
-  secure-router:
-    middlewares:
-      - secure-headers
-
-middlewares:
-  secure-headers:
-    headers:
-      sslRedirect: true
-      forceSTSHeader: true
-      stsIncludeSubdomains: true
-      stsPreload: true
-      stsSeconds: 31536000
-
+http:
+  middlewares:
+    secure-headers:
+      headers:
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
