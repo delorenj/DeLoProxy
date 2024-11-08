@@ -5,7 +5,9 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
-    network_mode: "host"  # Changed from networks for Podman compatibility
+    cap_add:  # Add this line
+      - NET_BIND_SERVICE  # And this line
+    network_mode: "host"
     volumes:
       - ./config:/etc/traefik:Z
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
