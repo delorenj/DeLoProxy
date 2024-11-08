@@ -19,15 +19,23 @@ services:
       - NAMECHEAP_API_USER=${NAMECHEAP_API_USER}
       - NAMECHEAP_API_KEY=${NAMECHEAP_API_KEY}
     command:
+      # API and Dashboard configuration
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=false"  # Disable insecure API access
+      # Entrypoints configuration
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.dashboard.address=:8080"
+      # Provider configuration
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.file.directory=/etc/traefik"
-      - "--providers.file.watch=true"  
+      - "--providers.file.watch=true"
+      # TLS configuration  
       - "--entrypoints.websecure.http.tls.options=default"
+      # Certificate resolvers
       - "--certificatesresolvers.delorenzo.acme.dnschallenge=true"
       - "--certificatesresolvers.delorenzo.acme.dnschallenge.provider=namecheap"
       - "--certificatesresolvers.delorenzo.acme.dnschallenge.resolvers=1.1.1.1"
@@ -38,10 +46,12 @@ services:
       - "--certificatesresolvers.delo.acme.dnschallenge.resolvers=1.1.1.1"
       - "--certificatesresolvers.delo.acme.email=jaradd@gmail.com"
       - "--certificatesresolvers.delo.acme.storage=/acme/acme-delo.json"
+      # Log configuration
+      - "--log.level=INFO"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.delorenzo.family`)"
       - "traefik.http.routers.dashboard.tls.certresolver=delorenzo"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.entrypoints=dashboard"
-      - "traefik.http.routers.dashboard.middlewares=secure-headers@file"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.middlewares=secure-headers@file,auth@file"
