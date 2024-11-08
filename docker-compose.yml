@@ -18,6 +18,7 @@ services:
     environment:
       - NAMECHEAP_API_USER=${NAMECHEAP_API_USER}
       - NAMECHEAP_API_KEY=${NAMECHEAP_API_KEY}
+      - TRAEFIK_AUTH=${TRAEFIK_AUTH}
     command:
       # API and Dashboard configuration
       - "--api=true"
