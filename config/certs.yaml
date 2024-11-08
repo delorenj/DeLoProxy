@@ -1,6 +1,0 @@
-tls:
-  certificates:
-    - certFile: "/lego/delo/certificates/_delo.sh.crt"
-      keyFile: "/lego/delo/certificates/_delorenzo.family.key"
-    - certFile: "/lego/delorenzo/certificates/_delorenzo.family.crt"
-      keyFile: "/lego/delorenzo/certificates/_delorenzo.family.key"
