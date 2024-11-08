@@ -17,8 +17,8 @@ services:
       - NAMECHEAP_API_KEY=${NAMECHEAP_API_KEY}
     command:
       - "--api.dashboard=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.address=:8080"
+      - "--entrypoints.websecure.address=:8443"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
