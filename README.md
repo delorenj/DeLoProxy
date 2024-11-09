@@ -9,6 +9,7 @@ A Podman-based reverse proxy setup using Traefik v2.10 for the DeLorenzo family 
 - Git for version control
 - Port 80 and 443 forwarded to the server
 - DNS configured for `delorenzo.family` domains
+- Traefik v2.10 binary (for Windows management)
 
 ## 🚀 Quick Start
 
@@ -17,11 +18,31 @@ A Podman-based reverse proxy setup using Traefik v2.10 for the DeLorenzo family 
 3. Deploy using `podman-compose up -d`
 4. Verify the dashboard is accessible at `https://traefik.delorenzo.family`
 
+## 🛠 Traefik Binary Setup (Windows)
+
+1. Download Traefik v2.10 from the [official releases page](https://github.com/traefik/traefik/releases/v2.10.0)
+2. Create a directory for Traefik:
+   ```powershell
+   mkdir C:\Program Files\Traefik
+   ```
+3. Extract `traefik.exe` to the created directory
+4. Add to System Path:
+   - Open System Properties (Win + R, type `sysdm.cpl`)
+   - Click "Environment Variables"
+   - Under "System Variables", select "Path"
+   - Click "Edit" and add `C:\Program Files\Traefik`
+   - Click OK on all dialogs
+5. Verify installation:
+   ```powershell
+   traefik version
+   ```
+
 ## 📁 Directory Structure
 
 ```
 .
 ├── docker-compose.yml          # Main compose file for Traefik
+├── start-traefik.ps1          # PowerShell script to manage Traefik
 ├── config/
 │   ├── certs.yaml             # Certificate configuration
 │   ├── dynamic_conf.yaml      # Dynamic middleware configuration
@@ -41,6 +62,19 @@ mkdir -p ${HOME}/podman/traefik/acme
 
 # Set proper permissions for acme directory
 chmod 600 ${HOME}/podman/traefik/acme
+```
+
+### Starting Traefik (Windows)
+
+```powershell
+# From the project directory
+.\start-traefik.ps1
+
+# With custom config path
+.\start-traefik.ps1 -ConfigPath "C:\path\to\config"
+
+# Without colored output
+.\start-traefik.ps1 -NoColor
 ```
 
 ## 🌍 Environment
