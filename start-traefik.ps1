@@ -30,12 +30,20 @@ function Write-StatusMessage {
     Write-Host $Message -ForegroundColor $color
 }
 
-# Get the absolute path of the script
+# Get the absolute path of the script and traefik
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptDir = Split-Path -Parent $scriptPath
 $serviceName = "TraefikService"
 $serviceDisplayName = "Traefik Proxy Service"
 $serviceDescription = "Runs Traefik reverse proxy with configuration from config directory"
+
+function Get-TraefikPath {
+    $traefikPath = Get-Command traefik -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+    if (-not $traefikPath) {
+        throw "Traefik executable not found in PATH"
+    }
+    return $traefikPath
+}
 
 function Install-TraefikService {
     if (Get-Service $serviceName -ErrorAction SilentlyContinue) {
@@ -43,12 +51,17 @@ function Install-TraefikService {
         return
     }
 
+    $traefikPath = Get-TraefikPath
     $absoluteConfigPath = Join-Path $scriptDir "config"
     
-    # Create the service
+    # Create the service with full paths
+    $binaryPath = "`"$traefikPath`" --configDir `"$absoluteConfigPath`""
+    
+    Write-StatusMessage "Installing service with path: $binaryPath" "Info"
+    
     $params = @{
         Name = $serviceName
-        BinaryPathName = "traefik --configDir `"$absoluteConfigPath`""
+        BinaryPathName = $binaryPath
         DisplayName = $serviceDisplayName
         Description = $serviceDescription
         StartupType = "Automatic"
