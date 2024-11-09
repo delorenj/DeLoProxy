@@ -84,6 +84,20 @@ function Test-TraefikConfig {
     }
 }
 
+function Import-DotEnv {
+    param (
+        [string]$Path = ".env"
+    )
+    if (Test-Path $Path) {
+        Get-Content $Path | ForEach-Object {
+            if ($_ -match "^\s*([^#][^=]*)\s*=\s*(.*)\s*$") {
+                [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], [System.EnvironmentVariableTarget]::Process)
+            }
+        }
+    } else {
+        Write-Host "No .env file found at path: $Path"
+    }
+}
 function Get-ServiceError {
     param($ServiceName)
     
