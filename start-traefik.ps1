@@ -55,18 +55,32 @@ function Test-TraefikConfig {
     Write-StatusMessage "Config path: $absoluteConfigPath" "Info"
     
     try {
-        # Test the configuration
-        & $traefikPath --configFile="$absoluteConfigPath" --check
-        if ($LASTEXITCODE -eq 0) {
+        # Start Traefik process
+        $process = Start-Process -FilePath $traefikPath -ArgumentList "--configFile=`"$absoluteConfigPath`"" -NoNewWindow -PassThru -RedirectStandardError ".\traefik-test.log"
+        
+        # Wait a few seconds to see if it starts successfully
+        Start-Sleep -Seconds 3
+        
+        if (-not $process.HasExited) {
+            # If process is still running, configuration is valid
             Write-StatusMessage "Configuration test successful" "Success"
+            $process.Kill()
             return $true
         } else {
+            # If process exited, read the error log
+            $errorLog = Get-Content ".\traefik-test.log" -ErrorAction SilentlyContinue
             Write-StatusMessage "Configuration test failed" "Error"
+            if ($errorLog) {
+                Write-StatusMessage "Error details: $errorLog" "Error"
+            }
             return $false
         }
     } catch {
         Write-StatusMessage "Error testing configuration: $_" "Error"
         return $false
+    } finally {
+        # Cleanup
+        Remove-Item ".\traefik-test.log" -ErrorAction SilentlyContinue
     }
 }
 
@@ -101,7 +115,7 @@ function Install-TraefikService {
     $absoluteConfigPath = Join-Path $scriptDir $ConfigPath
     
     # Create the service with full paths, using cmd.exe to handle the command
-    $binaryPath = "cmd.exe /C `"$traefikPath`" --configFile=`"$absoluteConfigPath`""
+    $binaryPath = "`"$traefikPath`" --configFile=`"$absoluteConfigPath`""
     
     Write-StatusMessage "Installing service with path: $binaryPath" "Info"
     
