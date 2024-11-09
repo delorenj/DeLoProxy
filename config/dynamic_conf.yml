@@ -1,12 +1,22 @@
 http:
   routers:
-    dashboard:
+    dashboard-delorenzo:
       rule: "Host(`traefik.delorenzo.family`)"
       service: "api@internal"
       entrypoints:
         - "websecure"
       tls:
         certResolver: "delorenzo"
+      middlewares:
+        - "secure-headers"
+        - "auth"
+    dashboard-delo:
+      rule: "Host(`traefik.delo.sh`)"
+      service: "api@internal"
+      entrypoints:
+        - "websecure"
+      tls:
+        certResolver: "delo"
       middlewares:
         - "secure-headers"
         - "auth"
