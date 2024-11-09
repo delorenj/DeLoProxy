@@ -20,8 +20,8 @@ entryPoints:
 certificatesResolvers:
   delorenzo:
     acme:
-      email: "jarad@delorenzo.family"
-      storage: "acme.json"
+      email: "jaradd@gmail.com"
+      storage: "./acme/delorenzo.family/challenges.json"
       dnsChallenge:
         provider: "namecheap"
         resolvers:
@@ -29,8 +29,8 @@ certificatesResolvers:
           - "8.8.8.8:53"
   delosh:
     acme:
-      email: "jarad@delorenzo.family"
-      storage: "acme.json"
+      email: "jaradd@gmail.com"
+      storage: "./acme/delo.sh/challenges.json"
       dnsChallenge:
         provider: "namecheap"
         resolvers:
@@ -43,7 +43,7 @@ providers:
     watch: true
 
 log:
-  level: INFO
+  level: "DEBUG"
   filePath: "./traefik.log"
 
 accessLog:
