@@ -1,0 +1,12 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: false
+
+providers:
+  file:
+    directory: "./config"
+    watch: true 
