@@ -101,7 +101,7 @@ function Install-TraefikService {
     $absoluteConfigPath = Join-Path $scriptDir "config"
     
     # Create the service with full paths, using cmd.exe to handle the command
-    $binaryPath = "cmd.exe /C `"$traefikPath`" --configDir `"$absoluteConfigPath`""
+    $binaryPath = "cmd.exe /C `"$traefikPath`" `"$absoluteConfigPath`""
     
     Write-StatusMessage "Installing service with path: $binaryPath" "Info"
     
@@ -177,7 +177,7 @@ try {
     Write-StatusMessage "Press Ctrl+C to stop Traefik..." "Warning"
     
     # Start Traefik with standard configuration
-    traefik --configDir="$ConfigPath"
+    traefik "$ConfigPath"
         
 } catch {
     Write-StatusMessage "Error: $_" "Error"
