@@ -1,7 +1,7 @@
 # start-traefik.ps1
 [CmdletBinding()]
 param (
-    [string]$ConfigPath = ".\config\traefik.yaml",
+    [string]$ConfigPath = ".\config\traefik.toml",
     [switch]$NoColor,
     [switch]$InstallService,
     [switch]$UninstallService,
@@ -114,7 +114,7 @@ function Install-TraefikService {
     $traefikPath = Get-TraefikPath
     $absoluteConfigPath = Join-Path $scriptDir $ConfigPath
     
-    # Create the service with full paths, using cmd.exe to handle the command
+    # Create the service with full paths
     $binaryPath = "`"$traefikPath`" --configFile=`"$absoluteConfigPath`""
     
     Write-StatusMessage "Installing service with path: $binaryPath" "Info"
