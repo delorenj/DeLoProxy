@@ -1,0 +1,48 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+  insecure: false
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        options:
+          default: {}
+  dashboard:
+    address: ":8080"
+
+providers:
+  file:
+    directory: "./config"
+    watch: true
+
+certificatesResolvers:
+  delorenzo:
+    acme:
+      email: "jaradd@gmail.com"
+      storage: "./acme/acme-delorenzo.json"
+      dnsChallenge:
+        provider: namecheap
+        resolvers:
+          - "1.1.1.1"
+
+  delo:
+    acme:
+      email: "jaradd@gmail.com"
+      storage: "./acme/acme-delo.json"
+      dnsChallenge:
+        provider: namecheap
+        resolvers:
+          - "1.1.1.1"
+
+log:
+  level: "INFO"
+
+accessLog: {}

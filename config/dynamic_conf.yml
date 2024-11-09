@@ -1,0 +1,26 @@
+http:
+  routers:
+    dashboard:
+      rule: "Host(`traefik.delorenzo.family`)"
+      service: "api@internal"
+      entrypoints:
+        - "websecure"
+      tls:
+        certResolver: "delorenzo"
+      middlewares:
+        - "secure-headers"
+        - "auth"
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "${TRAEFIK_AUTH}"
+    
+    secure-headers:
+      headers:
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
