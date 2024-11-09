@@ -46,8 +46,6 @@ try {
     # Start Traefik with standard configuration
     traefik `
         --configFile="$configFile" `
-        --providers.file.directory="$ConfigPath" `
-        --providers.file.watch=true `
         --log.level=INFO
         
 } catch {
