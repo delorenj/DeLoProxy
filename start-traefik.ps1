@@ -1,7 +1,7 @@
 # start-traefik.ps1
 [CmdletBinding()]
 param (
-    [string]$ConfigPath = ".\config",
+    [string]$ConfigPath = ".\config\traefik.yaml",
     [switch]$NoColor,
     [switch]$InstallService,
     [switch]$UninstallService,
@@ -48,7 +48,7 @@ function Get-TraefikPath {
 
 function Test-TraefikConfig {
     $traefikPath = Get-TraefikPath
-    $absoluteConfigPath = Join-Path $scriptDir "config"
+    $absoluteConfigPath = Join-Path $scriptDir $ConfigPath
     
     Write-StatusMessage "Testing Traefik configuration..." "Info"
     Write-StatusMessage "Traefik path: $traefikPath" "Info"
@@ -56,7 +56,7 @@ function Test-TraefikConfig {
     
     try {
         # Test the configuration
-        & $traefikPath "$absoluteConfigPath" --checkconfiguration
+        & $traefikPath --configFile="$absoluteConfigPath" --check
         if ($LASTEXITCODE -eq 0) {
             Write-StatusMessage "Configuration test successful" "Success"
             return $true
@@ -98,10 +98,10 @@ function Install-TraefikService {
     }
 
     $traefikPath = Get-TraefikPath
-    $absoluteConfigPath = Join-Path $scriptDir "config"
+    $absoluteConfigPath = Join-Path $scriptDir $ConfigPath
     
     # Create the service with full paths, using cmd.exe to handle the command
-    $binaryPath = "cmd.exe /C `"$traefikPath`" `"$absoluteConfigPath`""
+    $binaryPath = "cmd.exe /C `"$traefikPath`" --configFile=`"$absoluteConfigPath`""
     
     Write-StatusMessage "Installing service with path: $binaryPath" "Info"
     
@@ -162,22 +162,17 @@ try {
     }
 
     # Normal execution mode
-    # Verify config directory exists
-    if (-not (Test-Path $ConfigPath)) {
-        throw "Config directory not found at: $ConfigPath"
+    # Verify config file exists
+    $absoluteConfigPath = Join-Path $scriptDir $ConfigPath
+    if (-not (Test-Path $absoluteConfigPath)) {
+        throw "Config file not found at: $absoluteConfigPath"
     }
 
-    # Verify traefik.yaml exists
-    $configFile = Join-Path $ConfigPath "traefik.yaml"
-    if (-not (Test-Path $configFile)) {
-        throw "traefik.yaml not found at: $configFile"
-    }
-
-    Write-StatusMessage "Starting Traefik with configuration from: $ConfigPath"
+    Write-StatusMessage "Starting Traefik with configuration from: $absoluteConfigPath"
     Write-StatusMessage "Press Ctrl+C to stop Traefik..." "Warning"
     
-    # Start Traefik with standard configuration
-    traefik "$ConfigPath"
+    # Start Traefik with configuration file
+    traefik --configFile="$absoluteConfigPath"
         
 } catch {
     Write-StatusMessage "Error: $_" "Error"
