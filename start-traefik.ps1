@@ -56,7 +56,7 @@ function Test-TraefikConfig {
     
     try {
         # Test the configuration
-        & $traefikPath --configDir="$absoluteConfigPath" --checkconfiguration
+        & $traefikPath "$absoluteConfigPath" --checkconfiguration
         if ($LASTEXITCODE -eq 0) {
             Write-StatusMessage "Configuration test successful" "Success"
             return $true
