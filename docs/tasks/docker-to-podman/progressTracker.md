@@ -37,8 +37,11 @@ Current focus is on migrating from Docker to Podman for container management. Th
     - [x] Testing plan created
     - [x] Tonnys-Butt network verified
     - [x] Integration requirements documented
-    - [ ] WSL2-Windows connectivity setup
-    - [ ] Container network integration
+    - [x] WSL2-Windows connectivity setup
+    - [🟡] Container network integration
+      - [x] Basic connectivity established
+      - [x] Port forwarding configured
+      - [ ] Service discovery testing
     - [ ] External access configuration
 - [ ] Testing and verification
 - [ ] Documentation updates
@@ -59,14 +62,15 @@ Relevant files:
   - [Deployment Guide](container_configs/deployment_guide.md)
 
 Next Steps:
-1. Complete Bologna-Tramp setup on Windows (following windows_setup_guide.md)
+1. Complete service discovery testing between Tonnys-Butt and Bologna-Tramp
 2. Deploy Traefik on Bologna-Tramp
-3. Implement network integration plan
-4. Test connectivity between systems
-5. Configure external domain routing
+3. Configure and test external domain routing
+4. Implement comprehensive system testing plan
+5. Update final documentation with network topology and configuration details
 
 Current Status:
 - Tonnys-Butt environment fully configured and verified
 - Hello World service running and network-ready
-- All documentation updated with latest status
-- Ready for Bologna-Tramp setup and network integration
+- WSL2-Windows connectivity established
+- Port forwarding configured and tested
+- Ready for service discovery testing and Traefik deployment
