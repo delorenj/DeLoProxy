@@ -10,7 +10,7 @@
   - Project location: `C:\Users\jarad\code\DeLoProxy`
 
 - **Tonnys-Butt** (WSL2 Ubuntu on Wet-Ham)
-  - Target for main container deployments
+  - Target for h container deployments
   - Podman root directory: `/home/delorenj/podman`
   - Running Zsh shell
 

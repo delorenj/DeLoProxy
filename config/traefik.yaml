@@ -6,7 +6,45 @@ api:
   dashboard: true
   insecure: false
 
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  delorenzo:
+    acme:
+      email: "jarad@delorenzo.family"
+      storage: "acme.json"
+      dnsChallenge:
+        provider: "namecheap"
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+  delosh:
+    acme:
+      email: "jarad@delorenzo.family"
+      storage: "acme.json"
+      dnsChallenge:
+        provider: "namecheap"
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
 providers:
   file:
     directory: "./config"
-    watch: true 
+    watch: true
+
+log:
+  level: INFO
+  filePath: "./traefik.log"
+
+accessLog:
+  filePath: "./access.log"
