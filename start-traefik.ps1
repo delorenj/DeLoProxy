@@ -34,10 +34,10 @@ try {
         throw "Config directory not found at: $ConfigPath"
     }
 
-    # Verify traefik.yml exists
-    $configFile = Join-Path $ConfigPath "traefik.yml"
+    # Verify traefik.yaml exists
+    $configFile = Join-Path $ConfigPath "traefik.yaml"
     if (-not (Test-Path $configFile)) {
-        throw "traefik.yml not found at: $configFile"
+        throw "traefik.yaml not found at: $configFile"
     }
 
     Write-StatusMessage "Starting Traefik with configuration from: $ConfigPath"
