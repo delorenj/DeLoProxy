@@ -44,9 +44,7 @@ try {
     Write-StatusMessage "Press Ctrl+C to stop Traefik..." "Warning"
     
     # Start Traefik with standard configuration
-    traefik `
-        --configFile="$configFile" `
-        --log.level=INFO
+    traefik `--configFile="$configFile"`
         
 } catch {
     Write-StatusMessage "Error: $_" "Error"
